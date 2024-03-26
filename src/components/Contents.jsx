@@ -118,7 +118,7 @@ const Contents = ({ ramCharacterData, info }) => {
 
 
 
-                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1,p:1}}>
                                             <Box
                                                 //tabIndex işlemi her kartın keyboard üzerinden dinlenebilir olmasını sağlar
                                                 tabIndex={0}
