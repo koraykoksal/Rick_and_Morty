@@ -67,19 +67,21 @@ const NavBar = () => {
 
           <Box sx={{ display: { xs: 'none', sm: 'flex', md: 'flex' } }} >
             <img
+              loading='lazy'
               src={rick}
               alt="rickandmorty"
               width='100px'
-              style={{padding:5}}
+              style={{ padding: 5 }}
             />
           </Box>
 
           <Box sx={{ display: { xs: 'none', sm: 'flex', md: 'flex' } }} >
             <img
+              loading='lazy'
               src={morty}
               alt="rickandmorty"
               width='100px'
-              style={{padding:5}}
+              style={{ padding: 5 }}
             />
           </Box>
 

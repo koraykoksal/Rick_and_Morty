@@ -143,7 +143,7 @@ const Contents = ({ ramCharacterData, info }) => {
 
                                                 <Checkbox checked={status[item.name] || false} name={item.name} onChange={(e) => handleCheck(e, item)} />
 
-                                                <img src={item?.image} component="img" height="80" style={{ borderRadius: 5 }} />
+                                                <img src={item?.image} loading='lazy' component="img" height="80" style={{ borderRadius: 5 }} />
 
                                                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
 

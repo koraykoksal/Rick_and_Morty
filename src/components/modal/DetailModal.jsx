@@ -48,7 +48,7 @@ const DetailModal = ({ open, handleClose, selectedData }) => {
 
                         <Typography align='center'>Episodes: {selectedData?.episode?.length}</Typography>
 
-                        <img src={selectedData?.image} component="img" height="120" style={{ borderRadius: 5, margin: 'auto', display: 'flex' }} />
+                        <img src={selectedData?.image} loading='lazy' component="img" height="120" style={{ borderRadius: 5, margin: 'auto', display: 'flex' }} />
 
                         <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
                             <Typography align='center'>Gender: {selectedData?.gender}</Typography>

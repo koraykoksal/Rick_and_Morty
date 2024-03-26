@@ -85,7 +85,7 @@ const Characters = ({ open, handleClose }) => {
                                             }}
                                         >
 
-                                            <img src={item?.image} component="img" height="80" style={{ borderRadius: 5 }} />
+                                            <img src={item?.image} loading='lazy' component="img" height="80" style={{ borderRadius: 5 }} />
 
                                             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
 
