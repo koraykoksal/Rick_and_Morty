@@ -40,7 +40,7 @@ const useRickAndMortyCall = () => {
                 dispatch(fetchRickAndMortyData([]));
                 dispatch(fetchFail())
                 // diğer hata tipleri için göster
-                console.log("getFind_Character", error);
+                // console.log("getFind_Character", error);
                 toastWarnNotify('An unexpected error occurred');
             }
         }
