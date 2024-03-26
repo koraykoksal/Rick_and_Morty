@@ -11,6 +11,8 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { Outlet, useNavigate } from 'react-router';
 import logo from "../assets/img/navbarLogo.png"
+import rick from "../assets/img/rick.png"
+import morty from "../assets/img/morty.png"
 import { colors } from '../styles/globalStlye';
 
 
@@ -65,9 +67,19 @@ const NavBar = () => {
 
           <Box sx={{ display: { xs: 'none', sm: 'flex', md: 'flex' } }} >
             <img
-              src={logo}
+              src={rick}
               alt="rickandmorty"
               width='100px'
+              style={{padding:5}}
+            />
+          </Box>
+
+          <Box sx={{ display: { xs: 'none', sm: 'flex', md: 'flex' } }} >
+            <img
+              src={morty}
+              alt="rickandmorty"
+              width='100px'
+              style={{padding:5}}
             />
           </Box>
 
