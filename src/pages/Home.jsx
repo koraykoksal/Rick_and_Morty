@@ -4,19 +4,25 @@ import { useState, useEffect } from 'react'
 import { format } from "date-fns"
 import { homePageStyle, modalStyles } from '../styles/globalStlye'
 import Popover from '@mui/material/Popover';
-import { uid } from 'uid'
+import { CiBoxList } from "react-icons/ci";
 import useRickAndMortyCall from '../hooks/useRickAndMortyCall'
 import Contents from '../components/Contents'
 import { useSelector } from 'react-redux'
-import DetailModal from '../components/modal/DetailModal'
-
+import Characters from '../components/modal/Characters'
+import Badge from '@mui/material/Badge';
 
 
 export const Home = () => {
 
   const { getFind_Character } = useRickAndMortyCall()
-  const { ramCharacterData } = useSelector((state) => state.rickandmorty)
+  const { ramCharacterData,selectedCharacters } = useSelector((state) => state.rickandmorty)
   const [info, setInfo] = useState([]);
+
+
+  //? seçilen karakterlerin gösterilmesi için modal stateleri
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   const handleSearch = (params) => {
     // param değeri undefiend değilse api talebini yap
@@ -25,7 +31,6 @@ export const Home = () => {
     }
 
   }
-
 
 
 
@@ -38,10 +43,20 @@ export const Home = () => {
 
         <Container maxWidth='sm' component={'form'} sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
 
-          <Typography align='center' variant='subtitle2'>Search Rick and Morty Characters</Typography>
+
+
+          <Box >
+
+            <Badge color='secondary' badgeContent={selectedCharacters.length}>
+              <CiBoxList size={25} onClick={handleOpen} cursor={'pointer'}/>
+            </Badge>
+
+          </Box>
+
+
 
           <Autocomplete
-            id='name'
+            id='search-select-demo'
             multiple // birden fazla veri girişi için
             options={[]} //arama için kullanılacak
             freeSolo // listede olmayan bir değer girilmesi sağlar
@@ -50,7 +65,6 @@ export const Home = () => {
               setInfo(newValue)
               handleSearch(newValue[newValue.length - 1]) // girilen son datayı al/gönder
             }}
-
             renderTags={(value, getTagProps) =>
               value.map((option, index) => (
                 <Chip variant="outlined" label={option} {...getTagProps({ index })} sx={{ fontWeight: 700 }} onClick={(value) => handleSearch(option)} />
@@ -68,14 +82,14 @@ export const Home = () => {
             )}
           />
 
+
           {
             info.length > 0 && <Contents ramCharacterData={ramCharacterData} info={info} />
           }
 
-
         </Container>
 
-
+        <Characters open={open} handleClose={handleClose} selectedCharacters={selectedCharacters}/>
 
       </Box>
 

@@ -25,12 +25,6 @@ const style = {
 
 const DetailModal = ({ open, handleClose, selectedData }) => {
 
-    useEffect(() => {
-      
-
-
-    }, [selectedData])
-    
 
     return (
         <div>
@@ -75,8 +69,6 @@ const DetailModal = ({ open, handleClose, selectedData }) => {
                 </Box>
 
             </Modal>
-
-
         </div>
     )
 }

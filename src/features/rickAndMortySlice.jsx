@@ -9,8 +9,7 @@ const initialState = {
     loading:false,
     error:false,
     ramCharacterData:[],
-
-
+    selectedCharacters:[]
 }
 
 const rickAndMortySlice = createSlice({
@@ -32,6 +31,9 @@ const rickAndMortySlice = createSlice({
             state.loading=false
             state.ramCharacterData=payload
         },
+        fetchSendSelectedData:(state,{payload})=>{
+            state.selectedCharacters=payload
+        },
 
 
 
@@ -46,7 +48,8 @@ export const {
     
     fetchStart,
     fetchFail,
-    fetchRickAndMortyData
+    fetchRickAndMortyData,
+    fetchSendSelectedData
 
 } = rickAndMortySlice.actions
 

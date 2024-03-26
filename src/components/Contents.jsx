@@ -3,10 +3,12 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import Checkbox from '@mui/material/Checkbox';
 import { colors } from '../styles/globalStlye';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FormCheckLabel from 'react-bootstrap/esm/FormCheckLabel';
 import { HiEye } from "react-icons/hi";
 import DetailModal from './modal/DetailModal';
+import { fetchSendSelectedData } from '../features/rickAndMortySlice';
+
 
 
 const Contents = ({ ramCharacterData, info }) => {
@@ -14,17 +16,30 @@ const Contents = ({ ramCharacterData, info }) => {
     const [selectedData, setSelectedData] = useState({})
     const { loading } = useSelector((state) => state.rickandmorty)
     const [status, setStatus] = useState({})
-    const [selectedIndex, setSelectedIndex] = useState(null);
+    const [tags, setTags] = useState([])
 
+    const dispatch = useDispatch()
+
+    //? detaylar için modal stateleri
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true);
-    const handleClose = () => { setOpen(false) }
+    const handleClose = () => setOpen(false)
 
 
+
+
+    // info bilgisi değiştiğinde gerekli şartlar sağlanırsa çalış
     useEffect(() => {
         info.length < 0 && setStatus({})
     }, [info])
 
+    // seçilen card datasını redux tarafına gönder
+    useEffect(() => {
+      dispatch(fetchSendSelectedData(tags))
+    }, [tags])
+    
+
+    // girilen text karakterleri ile çıkan sonucun name bilgisini bold yap
     function textBold(text, param) {
         // RegExp içindeki 'gi' g:global olarak metnin tamamında arama yapar, i:büyük küçük harf duyarsız işlem yap
         const regex = new RegExp(`(${param})`, 'gi');
@@ -46,6 +61,18 @@ const Contents = ({ ramCharacterData, info }) => {
         setStatus(prev => ({
             ...prev, [param.name]: checked
         }))
+
+        // tags state'ini güncelle
+        setTags(prev => {
+            const newTags = new Set(prev); // Set kullanarak benzersiz değerleri koru
+            if (checked) {
+                newTags.add(param); // checked true ise ekle
+            } else {
+                newTags.delete(param); // checked false ise çıkar
+            }
+            return [...newTags]; // Set'i array'e çevir ve dön
+        });
+
     }
 
 
@@ -56,28 +83,21 @@ const Contents = ({ ramCharacterData, info }) => {
 
             // param.name değeri işlem görmüş ise durumu tersine çevir 
             setStatus({ ...status, [param.name]: !controlCheck })
+
+            // tags state'ini güncelle
+            setTags(prev => {
+                const newTags = new Set(prev); // Benzersiz değerleri koru
+                if (!controlCheck) {
+                    newTags.add(param); // Eğer kontrol edilmemişse ekle
+                }
+                else {
+                    newTags.delete(param); // Kontrol edilmişse çıkar
+                }
+                return [...newTags]; // Set'i array'e çevir ve dön
+            });
         }
     }
 
-    const handleKeyDown = (e, index) => {
-
-        let newIndex = selectedIndex;
-        switch (e.key) {
-            case 'ArrowDown':
-                newIndex = (selectedIndex + 1) % ramCharacterData?.results?.length;
-                break;
-            case 'ArrowUp':
-                newIndex = (selectedIndex - 1 + ramCharacterData?.results?.length) % ramCharacterData?.results?.length;
-                break;
-            default:
-                break;
-        }
-        setSelectedIndex(newIndex);
-
-        // Scroll into view if needed
-        document.getElementById(`card-${newIndex}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-    }
 
 
     return (
@@ -115,11 +135,10 @@ const Contents = ({ ramCharacterData, info }) => {
                                                     border: `1px solid ${colors.cardBorder}`,
                                                     borderRadius: 2,
                                                     // karakterim durumu 'dead' ise arka plan kırmızı yap değilse yeşil yap
-                                                    '&:hover': item.status == 'Dead' ? {backgroundColor:'red'}:{backgroundColor:'green'}, cursor:'pointer'
+                                                    '&:hover': item.status == 'Dead' ? { backgroundColor: 'red' } : { backgroundColor: 'green' }, cursor: 'pointer'
                                                 }}
                                                 component={'form'}
                                                 onClick={(e) => handleSelect(e, item)}
-                                                onKeyDown={(e) => handleKeyDown(e, index)}
                                             >
 
                                                 <Checkbox checked={status[item.name] || false} name={item.name} onChange={(e) => handleCheck(e, item)} />
@@ -141,7 +160,7 @@ const Contents = ({ ramCharacterData, info }) => {
                                             </Box>
 
                                             {/* DETAIL */}
-                                            <HiEye size={35} cursor={'pointer'} style={{ padding: 3 }} onClick={()=>{
+                                            <HiEye size={35} cursor={'pointer'} style={{ padding: 3 }} onClick={() => {
                                                 setSelectedData(item)
                                                 handleOpen()
                                             }} />
@@ -154,12 +173,12 @@ const Contents = ({ ramCharacterData, info }) => {
                             </Box>
 
                             <DetailModal open={open} handleClose={handleClose} selectedData={selectedData} />
-
+                            
                         </Box>
                     )
             }
 
-            
+
 
         </div>
     )
