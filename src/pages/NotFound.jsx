@@ -10,7 +10,7 @@ export const NotFound = () => {
 
   return (
 
-    <Grid  sx={{display:'flex',flexDirection:'column',justifyContent:'center',mt:10,textAlign:'center',alignItems:'center'}}>
+    <Grid  sx={{display:'flex',flexDirection:'column',justifyContent:'center',textAlign:'center',alignItems:'center',backgroundColor:'#F5F5FF',height:'100vh',overflow:'auto'}}>
 
       <Box>
         <img
