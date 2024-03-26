@@ -46,10 +46,8 @@ const useRickAndMortyCall = () => {
         }
     }
 
-
-
     return {
-        getFind_Character
+        getFind_Character,
     }
 
 }

@@ -8,6 +8,7 @@ import { uid } from 'uid'
 import useRickAndMortyCall from '../hooks/useRickAndMortyCall'
 import Contents from '../components/Contents'
 import { useSelector } from 'react-redux'
+import DetailModal from '../components/modal/DetailModal'
 
 
 
@@ -24,6 +25,8 @@ export const Home = () => {
     }
 
   }
+
+
 
 
   return (
@@ -71,7 +74,6 @@ export const Home = () => {
 
 
         </Container>
-
 
 
 
