@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { IoClose } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
 import { IoHeartDislikeOutline } from "react-icons/io5";
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 const style = {
@@ -13,11 +13,10 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '50%',
+    // width: '80%',
+    overflow:'auto',
     bgcolor: 'background.paper',
     borderRadius: 3,
-    // border: '2px solid #000',
-    // boxShadow: 14,
     p: 4,
 
 };
@@ -37,7 +36,21 @@ const DetailModal = ({ open, handleClose, selectedData }) => {
                 aria-labelledby="keep-mounted-modal-title"
                 aria-describedby="keep-mounted-modal-description"
             >
-                <Box sx={style}>
+                <Box sx={{
+                    ...style,
+                    width: {
+                        xs: '90%', // Extra small ve daha küçük cihazlar için
+                        sm: '75%', // Small ve daha büyük cihazlar için
+                        md: '50%', // Medium ve daha büyük cihazlar için
+                        lg: '30%'  // Large ve daha büyük cihazlar için
+                    },
+                    height: {
+                        xs: '90%', // Extra small ve daha küçük cihazlar için
+                        sm: '75%', // Small ve daha büyük cihazlar için
+                        md: '70%', // Medium ve daha büyük cihazlar için
+                        lg: '70%'  // Large ve daha büyük cihazlar için
+                    },
+                }}>
 
                     <IoClose size={26} color='red' onClick={handleClose} cursor={'pointer'} />
 

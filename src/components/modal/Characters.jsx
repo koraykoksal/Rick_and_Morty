@@ -17,11 +17,11 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '50%',
+    // width: '50%',
+    // maxHeight:'500px',
+    overflow:'auto',
     bgcolor: 'background.paper',
     borderRadius: 3,
-    // border: '2px solid #000',
-    // boxShadow: 14,
     p: 4,
 
 };
@@ -51,14 +51,29 @@ const Characters = ({ open, handleClose }) => {
                 aria-labelledby="keep-mounted-modal-title"
                 aria-describedby="keep-mounted-modal-description"
             >
-                <Box sx={style}>
+                <Box sx={{
+                    ...style,
+                    width: {
+                        xs: '90%', // Extra small ve daha küçük cihazlar için
+                        sm: '75%', // Small ve daha büyük cihazlar için
+                        md: '50%', // Medium ve daha büyük cihazlar için
+                        lg: '30%'  // Large ve daha büyük cihazlar için
+                    },
+                    height: {
+                        xs: '90%', // Extra small ve daha küçük cihazlar için
+                        sm: '75%', // Small ve daha büyük cihazlar için
+                        md: '70%', // Medium ve daha büyük cihazlar için
+                        lg: '70%'  // Large ve daha büyük cihazlar için
+                    },
+                    
+                }}>
 
                     <IoClose size={26} color='red' onClick={handleClose} cursor={'pointer'} />
 
                     <Typography align='center' py={2}>Selected Data - (Total: {selectedCharacters.length})</Typography>
                     <Typography align='center' py={2}></Typography>
 
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, overflow: 'auto', maxHeight: '600px' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, maxHeight: '600px' }}>
 
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                             {
@@ -74,7 +89,8 @@ const Characters = ({ open, handleClose }) => {
                                                 width: '100%',
                                                 alignItems: 'center',
                                                 display: 'flex',
-                                                justifyContent: 'flex-start',
+                                                justifyContent: 'space-between',
+                                                flexWrap:'wrap',
                                                 gap: 2,
                                                 p: 1,
                                                 overflow: 'auto',
@@ -85,9 +101,11 @@ const Characters = ({ open, handleClose }) => {
                                             }}
                                         >
 
-                                            <img src={item?.image} loading='lazy' component="img" height="80" style={{ borderRadius: 5 }} />
 
-                                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+
+                                            {/* <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}> */}
+
+                                                <img src={item?.image} loading='lazy' component="img" height="80" style={{ borderRadius: 5 }} />
 
                                                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                                                     <Typography align='left' variant='subtitle1'>
@@ -111,7 +129,7 @@ const Characters = ({ open, handleClose }) => {
                                                     </Typography>
                                                 </Box>
 
-                                            </Box>
+                                            {/* </Box> */}
 
 
 
