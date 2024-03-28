@@ -19,26 +19,24 @@ const style = {
     transform: 'translate(-50%, -50%)',
     // width: '50%',
     // maxHeight:'500px',
-    overflow:'auto',
+    overflow: 'auto',
     bgcolor: 'background.paper',
     borderRadius: 3,
     p: 4,
 
 };
 
-const Characters = ({ open, handleClose }) => {
+const Characters = ({ open, handleClose, selectedCharacters }) => {
 
-    // silinecek data sonrası yebi state bilgisini tutar
-    const [updateData, setUpdateData] = useState([])
-    const { selectedCharacters } = useSelector((state) => state.rickandmorty)
     const dispatch = useDispatch()
-
 
     // silinen data bilgisi redux dan silinerek yeniden render olur
     const handleDelete = (e, data) => {
-        const updateChracter = selectedCharacters.filter(chr => chr.id !== data.id)
+        const updateChracter = selectedCharacters?.filter(chr => chr.id !== data.id)
         dispatch(fetchSendSelectedData(updateChracter))
     }
+
+    console.log(selectedCharacters)
 
     return (
         <div>
@@ -57,7 +55,7 @@ const Characters = ({ open, handleClose }) => {
                         xs: '90%', // Extra small ve daha küçük cihazlar için
                         sm: '75%', // Small ve daha büyük cihazlar için
                         md: '50%', // Medium ve daha büyük cihazlar için
-                        lg: '30%'  // Large ve daha büyük cihazlar için
+                        lg: '40%'  // Large ve daha büyük cihazlar için
                     },
                     height: {
                         xs: '90%', // Extra small ve daha küçük cihazlar için
@@ -65,7 +63,7 @@ const Characters = ({ open, handleClose }) => {
                         md: '70%', // Medium ve daha büyük cihazlar için
                         lg: '70%'  // Large ve daha büyük cihazlar için
                     },
-                    
+
                 }}>
 
                     <IoClose size={26} color='red' onClick={handleClose} cursor={'pointer'} />
@@ -80,6 +78,9 @@ const Characters = ({ open, handleClose }) => {
                                 selectedCharacters?.map((item, index) => (
 
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, gap: 1 }}>
+
+
+
                                         <Box
                                             //tabIndex işlemi her kartın keyboard üzerinden dinlenebilir olmasını sağlar
                                             tabIndex={0}
@@ -89,9 +90,10 @@ const Characters = ({ open, handleClose }) => {
                                                 width: '100%',
                                                 alignItems: 'center',
                                                 display: 'flex',
-                                                justifyContent: 'space-between',
-                                                flexWrap:'wrap',
-                                                gap: 2,
+                                                // justifyContent: 'space-between',
+                                                flexDirection: 'column',
+                                                flexWrap: 'wrap',
+                                                gap: 1,
                                                 p: 1,
                                                 overflow: 'auto',
                                                 border: `1px solid ${colors.cardBorder}`,
@@ -101,9 +103,18 @@ const Characters = ({ open, handleClose }) => {
                                             }}
                                         >
 
+                                            <Typography variant='subtitle2' sx={{ fontSize: 10 }}>Selected Date: {item?.selectedDate}</Typography>
 
 
-                                            {/* <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}> */}
+                                            <Box sx={{
+                                                width: '100%',
+                                                p:1,
+                                                alignItems: 'center',
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                flexWrap: 'wrap',
+                                                gap: 2
+                                            }}>
 
                                                 <img src={item?.image} loading='lazy' component="img" height="80" style={{ borderRadius: 5 }} />
 
@@ -129,7 +140,7 @@ const Characters = ({ open, handleClose }) => {
                                                     </Typography>
                                                 </Box>
 
-                                            {/* </Box> */}
+                                            </Box>
 
 
 
