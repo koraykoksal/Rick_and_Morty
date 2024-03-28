@@ -13,6 +13,7 @@ import Content from '../components/Content'
 import { fetchSendSelectedData } from '../features/rickAndMortySlice'
 import { FaHeart } from "react-icons/fa";
 import { IoHeartDislikeOutline } from "react-icons/io5";
+import { toastWarnNotify } from '../helper/ToastNotify'
 
 export const Home = () => {
 
@@ -51,17 +52,18 @@ export const Home = () => {
 
   //! sselectedItems state her değiştiğinde datayı redux tarafına gönder
   useEffect(() => {
-    // seçilen kaydın tarih saat bilgisini al
-    const newData = selectedItems.map(item => ({
-      ...item,
-      selectedDate: nowDate // seçilen kaydın tarih saat bilgisi
-    }))
-    dispatch(fetchSendSelectedData(newData || []))
+    if (selectedItems?.length > 0) {
+      // seçilen kaydın tarih saat bilgisini al
+      const newData = selectedItems?.map(item => ({
+        ...item,
+        selectedDate: nowDate // seçilen kaydın tarih saat bilgisi
+      }))
+      dispatch(fetchSendSelectedData(newData || []))
+    }
+
   }, [selectedItems])
 
-
-  console.log("yazılan: ", inputValue)
-  console.log("seçilen: ", selectedItems)
+  console.log(selectedItems)
 
   return (
 
@@ -82,55 +84,9 @@ export const Home = () => {
 
           </Box>
 
-
-          {/* <Autocomplete
-            multiple={true}
-            options={inputValue ? searchResults : []}
-            freeSolo
-            getOptionLabel={(option) => option.name || ''}
-            value={selectedItems}
-            inputValue={inputValue}
-            closeOnSelect={false}
-            onInputChange={(event, newInputValue) => {
-              setInfo(newInputValue || "") //! girilen value değeri bold olarak göstermek için bir kopyasını Content tarafına gönder
-              setInputValue(newInputValue || ""); //! girilen değeri Textfield içinde göstermek için value değeri yakala
-              handleSearch(event, newInputValue || "") //! girilen her değer için apiden veriyi çek
-            }}
-            onChange={(event, newValue) => {
-              setSelectedItems(newValue); //! seçilen datanın bilgisini state tarafında tut
-            }}
-            //! listelenen sonuçları Content componenti çağırarak göster
-            renderOption={(props, option) => (
-              <li {...props} key={option.id} style={{ width: '100%', padding: 5 }}>
-                <Content option={option} info={info} />
-              </li>
-            )}
-            renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip
-                  variant="outlined"
-                  label={option.name}
-                  {...getTagProps({ index })}
-                  sx={{ fontWeight: 700 }}
-                />
-              ))
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                required
-                label="Search"
-                placeholder="Type text"
-                variant="outlined"
-                value={inputValue}
-              />
-            )}
-          /> */}
-
-
           <Autocomplete
             multiple={true}
-            options={inputValue ? searchResults : []}
+            options={inputValue.length > 0 ? searchResults : []}
             freeSolo
             getOptionLabel={(option) => option.name || ''}
             value={selectedItems}
@@ -142,7 +98,13 @@ export const Home = () => {
               handleSearch(event, newInputValue || "") //! girilen her değer için apiden veriyi çek
             }}
             onChange={(event, newValue) => {
-              setSelectedItems(newValue); //! seçilen datanın bilgisini state tarafında tut
+              if (event.code == 'Enter') {
+                toastWarnNotify('Please select a result !') // input alanına yazılan text metni sonrası enter tuşlanırsa hata mesajı ver
+              }
+              else {
+                setSelectedItems(newValue); //! seçilen datanın bilgisini state tarafında tut
+              }
+
             }}
             //! listelenen sonuçları Content componenti çağırarak göster
             renderOption={(props, option) => (
@@ -170,7 +132,7 @@ export const Home = () => {
                 value={inputValue}
               />
             )}
-            loadingText='Yükleniyor..'
+            loading={true} // yükleniyor bilgisini göster
           />
 
         </Container>
