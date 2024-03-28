@@ -14,11 +14,12 @@ import { fetchSendSelectedData } from '../features/rickAndMortySlice'
 import { FaHeart } from "react-icons/fa";
 import { IoHeartDislikeOutline } from "react-icons/io5";
 import { toastWarnNotify } from '../helper/ToastNotify'
+import { tuple } from 'yup'
 
 export const Home = () => {
 
   const { getFind_Character } = useRickAndMortyCall()
-  const { ramCharacterData, selectedCharacters } = useSelector((state) => state.rickandmorty)
+  const { ramCharacterData, selectedCharacters,loading } = useSelector((state) => state.rickandmorty)
   const [info, setInfo] = useState([]); // Seçilen öğelerin `name`'lerini saklar
   const [searchResults, setSearchResults] = useState([]);
   const dispatch = useDispatch()
@@ -52,18 +53,15 @@ export const Home = () => {
 
   //! sselectedItems state her değiştiğinde datayı redux tarafına gönder
   useEffect(() => {
-    if (selectedItems?.length > 0) {
-      // seçilen kaydın tarih saat bilgisini al
-      const newData = selectedItems?.map(item => ({
-        ...item,
-        selectedDate: nowDate // seçilen kaydın tarih saat bilgisi
-      }))
-      dispatch(fetchSendSelectedData(newData || []))
-    }
-
+    // seçilen kaydın tarih saat bilgisini al
+    const newData = selectedItems?.map(item => ({
+      ...item,
+      selectedDate: nowDate // seçilen kaydın tarih saat bilgisi
+    }))
+    dispatch(fetchSendSelectedData(newData || []))
   }, [selectedItems])
 
-  console.log(selectedItems)
+
 
   return (
 
@@ -98,13 +96,18 @@ export const Home = () => {
               handleSearch(event, newInputValue || "") //! girilen her değer için apiden veriyi çek
             }}
             onChange={(event, newValue) => {
-              if (event.code == 'Enter') {
-                toastWarnNotify('Please select a result !') // input alanına yazılan text metni sonrası enter tuşlanırsa hata mesajı ver
+               //! seçilen datanın bilgisini state tarafında tut
+              if (Array.isArray(newValue)) {
+                // Value bilgisi bir obje değilse filtreleme yap [] gönder
+                const filteredItems = newValue.filter(item => typeof item === 'object');
+                setSelectedItems(filteredItems);
               }
               else {
-                setSelectedItems(newValue); //! seçilen datanın bilgisini state tarafında tut
+                // Eğer newValue bir obje ise (tek bir seçim durumu), bir dizi olarak ayarla
+                if (typeof newValue === 'object') {
+                  setSelectedItems([newValue]);
+                }
               }
-
             }}
             //! listelenen sonuçları Content componenti çağırarak göster
             renderOption={(props, option) => (
@@ -132,7 +135,7 @@ export const Home = () => {
                 value={inputValue}
               />
             )}
-            loading={true} // yükleniyor bilgisini göster
+            loading={loading} // yükleniyor bilgisini göster
           />
 
         </Container>
