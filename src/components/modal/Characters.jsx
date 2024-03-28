@@ -36,7 +36,6 @@ const Characters = ({ open, handleClose, selectedCharacters }) => {
         dispatch(fetchSendSelectedData(updateChracter))
     }
 
-    console.log(selectedCharacters)
 
     return (
         <div>

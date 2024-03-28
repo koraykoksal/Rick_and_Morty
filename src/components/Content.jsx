@@ -19,16 +19,15 @@ const Content = ({ option,info }) => {
     }
 
     return (
-        <div>
-            <Box width={'100%'}
+        <div style={{width:'100%',padding:5}}>
+            <Box
                 sx={{
-                    width: '100%',
                     alignItems: 'center',
                     display: 'flex',
                     justifyContent: 'start',
                     flexWrap: 'wrap',
                     gap: 2,
-                    p: 1,
+                    p:2,
                     overflow: 'auto',
                     border: `1px solid black`,
                     borderRadius: 2,
