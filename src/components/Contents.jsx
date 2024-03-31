@@ -35,9 +35,9 @@ const Contents = ({ ramCharacterData, info }) => {
 
     // seçilen card datasını redux tarafına gönder
     useEffect(() => {
-      dispatch(fetchSendSelectedData(tags))
+        dispatch(fetchSendSelectedData(tags))
     }, [tags])
-    
+
 
     // girilen text karakterleri ile çıkan sonucun name bilgisini bold yap
     function textBold(text, param) {
@@ -98,19 +98,31 @@ const Contents = ({ ramCharacterData, info }) => {
         }
     }
 
-
+  
 
     return (
-        <div>
+        <Box sx={{
+            width: {
+                xs: '90%', // Extra small ve daha küçük cihazlar için
+                sm: '75%', // Small ve daha büyük cihazlar için
+                md: '50%', // Medium ve daha büyük cihazlar için
+                lg: '40%'  // Large ve daha büyük cihazlar için
+            },
+            margin:'auto',
+            py:5
+        }}>
 
             {
                 loading ?
                     (
-                        <div className='loader' style={{ margin: 'auto', marginTop: 50 }}></div>
+                        <div className='loader' style={{ margin: 'auto', marginTop: 25 }}></div>
                     )
                     :
                     (
-                        <Box sx={{ display: 'flex', flexDirection: 'column', overflow: 'auto', maxHeight: '500px', border: `1px solid ${colors.boxBorder}`, borderRadius: 2, p: 1 }}>
+                        <Box sx={{
+                            display: 'flex', flexDirection: 'column', overflow: 'auto', maxHeight: '500px', border: `1px solid ${colors.boxBorder}`, borderRadius: 2, p: 1
+
+                        }}>
 
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                                 {
@@ -118,7 +130,7 @@ const Contents = ({ ramCharacterData, info }) => {
 
 
 
-                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1,p:1}}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1, p: 1 }}>
                                             <Box
                                                 //tabIndex işlemi her kartın keyboard üzerinden dinlenebilir olmasını sağlar
                                                 tabIndex={0}
@@ -173,14 +185,14 @@ const Contents = ({ ramCharacterData, info }) => {
                             </Box>
 
                             <DetailModal open={open} handleClose={handleClose} selectedData={selectedData} />
-                            
+
                         </Box>
                     )
             }
 
 
 
-        </div>
+        </Box>
     )
 }
 
