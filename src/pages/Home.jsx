@@ -11,8 +11,6 @@ import Characters from '../components/modal/Characters'
 import Badge from '@mui/material/Badge';
 import Content from '../components/Content'
 import { fetchSendSelectedData } from '../features/rickAndMortySlice'
-import { FaHeart } from "react-icons/fa";
-import { IoHeartDislikeOutline } from "react-icons/io5";
 import { toastWarnNotify } from '../helper/ToastNotify'
 
 
@@ -25,6 +23,8 @@ export const Home = () => {
   const dispatch = useDispatch()
   const [selectedItems, setSelectedItems] = useState([]); // Seçilen öğeleri saklamak için
   const [inputValue, setInputValue] = useState(''); // Arama metnini saklamak için
+
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const currentDate = new Date()
   const nowDate = format(currentDate, 'yyyy-MM-dd HH:mm')
@@ -77,11 +77,12 @@ export const Home = () => {
   }, [selectedItems])
 
 
+
   // selected modal içindeki cardlardan biri silinirse input içinde yer alan textler silinsin
   useEffect(() => {
-   
+
     // redux da bulunan data içinde bir değer silindiği zaman verileri filtrele
-    const filterData = selectedCharacters.map((element)=>{
+    const filterData = selectedCharacters.map((element) => {
       return selectedItems.find(item => item.id === element.id)
     })
 
@@ -89,7 +90,7 @@ export const Home = () => {
     setSelectedItems(filterData)
 
   }, [selectedCharacters])
-  
+
 
 
   const handleChange = (e, params) => {
@@ -138,7 +139,7 @@ export const Home = () => {
 
 
 
-          <Box >
+          <Box>
 
             <Badge color='secondary' badgeContent={selectedCharacters?.length}>
               <CiBoxList size={25} onClick={handleOpen} cursor={'pointer'} />
@@ -154,7 +155,7 @@ export const Home = () => {
             getOptionLabel={(option) => option.name || ''}
             value={selectedItems} // listeden seçilen değerleri temsil eder
             inputValue={inputValue} // input alanına yazılan text metini temsil eder
-            closeOnSelect={false}
+            //closeOnSelect={false} // açılır menü sabit kalsın
             onInputChange={(event, newInputValue) => {
               setInfo(newInputValue || "") //! girilen value değeri bold olarak göstermek için bir kopyasını Content tarafına gönder
               setInputValue(newInputValue || ""); //! girilen değeri Textfield içinde göstermek için value değeri yakala
@@ -192,33 +193,6 @@ export const Home = () => {
             )}
             loading={loading} // yükleniyor bilgisini göster
           />
-
-
-          {/* <Autocomplete
-            id='search-select-demo'
-            multiple // birden fazla veri girişi için
-            options={[]} //arama için kullanılacak
-            freeSolo // listede olmayan bir değer girilmesi sağlar
-            value={info}
-            onChange={(e, newValue) => {
-              setInfo(newValue)
-              handleSearch(newValue[newValue.length - 1]) // girilen son datayı al/gönder
-            }}
-            renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip variant="outlined" label={option} {...getTagProps({ index })} sx={{ fontWeight: 700 }} onClick={(value) => handleSearch(option)} />
-              ))
-            }
-            renderInput={(params) => (
-              <TextField
-                required
-                {...params}
-                variant="outlined"
-                label="Search"
-                placeholder="Type text"
-              />
-            )}
-          /> */}
 
         </Container>
 

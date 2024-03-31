@@ -2,6 +2,7 @@ import React from 'react'
 import { Autocomplete, Chip, Box, Button, Card, CardContent, CardMedia, Container, FormControl, Modal, Select, TextField, Typography } from '@mui/material'
 import { FaHeart } from "react-icons/fa";
 import { IoHeartDislikeOutline } from "react-icons/io5";
+import { GiTombstone } from "react-icons/gi";
 import { useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 
@@ -86,7 +87,7 @@ const Content = ({ option, info }) => {
                         <Typography variant='subtitle2' style={{ alignItems: 'center', display: 'flex', gap: 3 }}>
                             Status:
                             {
-                                option?.status == 'Alive' ? <FaHeart color='red' /> : <IoHeartDislikeOutline color='black' />
+                                option?.status == 'Alive' ? <FaHeart color='black' /> : <GiTombstone color='black'/>
                             }
                         </Typography>
 
