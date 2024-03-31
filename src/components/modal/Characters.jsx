@@ -76,15 +76,13 @@ const Characters = ({ open, handleClose, selectedCharacters }) => {
                             {
                                 selectedCharacters?.map((item, index) => (
 
-                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, gap: 1 }}>
-
+                                    <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, gap: 1 }}>
 
 
                                         <Box
                                             //tabIndex işlemi her kartın keyboard üzerinden dinlenebilir olmasını sağlar
                                             tabIndex={0}
                                             id={index}
-                                            key={index}
                                             sx={{
                                                 width: '100%',
                                                 alignItems: 'center',

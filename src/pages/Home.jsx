@@ -24,8 +24,6 @@ export const Home = () => {
   const [selectedItems, setSelectedItems] = useState([]); // Seçilen öğeleri saklamak için
   const [inputValue, setInputValue] = useState(''); // Arama metnini saklamak için
 
-  const [menuOpen, setMenuOpen] = useState(false);
-
   const currentDate = new Date()
   const nowDate = format(currentDate, 'yyyy-MM-dd HH:mm')
 
@@ -156,12 +154,12 @@ export const Home = () => {
             value={selectedItems} // listeden seçilen değerleri temsil eder
             inputValue={inputValue} // input alanına yazılan text metini temsil eder
             //closeOnSelect={false} // açılır menü sabit kalsın
-            onInputChange={(event, newInputValue) => {
+            onInputChange={(event, newInputValue, reason) => {
               setInfo(newInputValue || "") //! girilen value değeri bold olarak göstermek için bir kopyasını Content tarafına gönder
               setInputValue(newInputValue || ""); //! girilen değeri Textfield içinde göstermek için value değeri yakala
               handleSearch(event, newInputValue || "") //! girilen her değer için apiden veriyi çek
             }}
-            onChange={(event, newValue) => {
+            onChange={(event, newValue, reason) => {
               handleChange(event, newValue)
             }}
             //! listelenen sonuçları Content componenti çağırarak göster
