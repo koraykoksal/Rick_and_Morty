@@ -49,7 +49,6 @@ const Content = ({ option, info }) => {
     }
 
 
-    
 
     return (
         <div style={{ width: '100%', padding: 5 }}>
@@ -69,13 +68,13 @@ const Content = ({ option, info }) => {
                 }}
             >
 
-                <Checkbox checked={status[info.name] || false} name={info.name} onChange={(e) => handleCheck(e, info)} />
+                {/* <Checkbox checked={status[info.name] || false} name={info.name} onChange={(e) => handleCheck(e, info)} /> */}
 
                 <img src={option?.image} loading='lazy' component="img" height="80" style={{ borderRadius: 5 }} />
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                     <Typography align='left' variant='subtitle1'>
-                        {textBold(option?.name, info)}
+                        {info ? textBold(option?.name, info) : option?.name}
                     </Typography>
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>

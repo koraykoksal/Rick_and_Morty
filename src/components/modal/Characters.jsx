@@ -139,10 +139,6 @@ const Characters = ({ open, handleClose, selectedCharacters }) => {
 
                                             </Box>
 
-
-
-
-
                                         </Box>
 
                                         <MdDeleteForever size={30} color='red' cursor={'pointer'} onClick={(e) => handleDelete(e, item)} />

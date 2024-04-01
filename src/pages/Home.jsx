@@ -1,17 +1,17 @@
 import { Autocomplete, Chip, Box, Button, Card, CardContent, CardMedia, Container, FormControl, Modal, Select, TextField, Typography } from '@mui/material'
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { format } from "date-fns"
 import { homePageStyle, modalStyles } from '../styles/globalStlye'
 import { CiBoxList } from "react-icons/ci";
 import useRickAndMortyCall from '../hooks/useRickAndMortyCall'
-import Contents from '../components/Contents'
 import { useDispatch, useSelector } from 'react-redux'
 import Characters from '../components/modal/Characters'
 import Badge from '@mui/material/Badge';
 import Content from '../components/Content'
 import { fetchSendSelectedData } from '../features/rickAndMortySlice'
 import { toastWarnNotify } from '../helper/ToastNotify'
+import { debounce } from 'lodash'; // lodash'dan debounce fonksiyonunu import edin
 
 
 export const Home = () => {
@@ -33,7 +33,6 @@ export const Home = () => {
   const handleClose = () => setOpen(false)
 
 
-
   // apiden arama yap
   const handleSearch = async (e, params) => {
     if (params) {
@@ -51,12 +50,13 @@ export const Home = () => {
 
 
 
+
   //! selectedItems state her değiştiğinde datayı redux tarafına gönder
   useEffect(() => {
 
     const sameIDs = new Set()
 
-    const newData = selectedItems.filter((filterData) => {
+    const newData = selectedItems?.filter((filterData) => {
       if (!sameIDs.has(filterData.id)) {
         sameIDs.add(filterData.id)
         return true
@@ -80,7 +80,7 @@ export const Home = () => {
   useEffect(() => {
 
     // redux da bulunan data içinde bir değer silindiği zaman verileri filtrele
-    const filterData = selectedCharacters.map((element) => {
+    const filterData = selectedCharacters?.map((element) => {
       return selectedItems.find(item => item.id === element.id)
     })
 
@@ -97,7 +97,7 @@ export const Home = () => {
     const sameIDs = new Set()
 
     // param değerin oluşan kayıtları filtreleme yap. sameIDs.has işlemi ile benzersiz öğenin olup olmadığı kontrol edilir.
-    const selectedDatas = params.filter((filterData) => {
+    const selectedDatas = params?.filter((filterData) => {
       if (!sameIDs.has(filterData.id)) {
         sameIDs.add(filterData.id)
         return true
@@ -124,7 +124,7 @@ export const Home = () => {
 
   }
 
-
+  
 
   return (
 
@@ -138,22 +138,20 @@ export const Home = () => {
 
 
           <Box>
-
             <Badge color='secondary' badgeContent={selectedCharacters?.length}>
               <CiBoxList size={25} onClick={handleOpen} cursor={'pointer'} />
             </Badge>
-
           </Box>
+
 
 
           <Autocomplete
             multiple
-            options={inputValue.length > 0 ? searchResults : []}
+            options={searchResults || []}
             freeSolo // kullanıcının yazarak seçim yapmasını sağlar
             getOptionLabel={(option) => option.name || ''}
             value={selectedItems} // listeden seçilen değerleri temsil eder
             inputValue={inputValue} // input alanına yazılan text metini temsil eder
-            //closeOnSelect={false} // açılır menü sabit kalsın
             onInputChange={(event, newInputValue, reason) => {
               setInfo(newInputValue || "") //! girilen value değeri bold olarak göstermek için bir kopyasını Content tarafına gönder
               setInputValue(newInputValue || ""); //! girilen değeri Textfield içinde göstermek için value değeri yakala
@@ -175,7 +173,9 @@ export const Home = () => {
                   label={option.name}
                   {...getTagProps({ index })}
                   sx={{ fontWeight: 700 }}
-                  onClick={(e) => console.log(e)}
+                  // input alanındaki text name üzerine tıklandığında tekrar soru atar
+                  onClick={(e) => handleSearch(e,option.name)} 
+                  
                 />
               ))
             }
@@ -193,12 +193,6 @@ export const Home = () => {
           />
 
         </Container>
-
-
-        {/* {
-          info.length > 0 && <Contents ramCharacterData={ramCharacterData} info={info} />
-        } */}
-
 
         {/* seçim yapılan karakterleri gösteren modal */}
         <Characters open={open} handleClose={handleClose} selectedCharacters={selectedCharacters} />
